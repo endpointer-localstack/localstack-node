@@ -13,15 +13,24 @@ import os
 DOCS_URL = 'https://endpointer.com'
 
 API_FOLDER = 'api-folder'
-
-LAMBDA_FUNCTION = 'lambda_function'
 API_MODULE = 'api-module'
-LAMBDA_MODULE = 'lambda_module'
-
 
 def application(environ, start_response):
 
     request_verb = ep_http.get_request_verb(environ)
+
+    is_options = (request_verb == 'OPTIONS')
+    
+    if is_options:
+
+        (response_status, response_headers, response_body) = prepare_options_response()
+        print((response_status, response_headers, response_body))
+        start_response(
+            response_status,
+            response_headers
+        )
+        
+        return response_body
 
     request_headers = ep_http.get_request_headers(environ)
 
@@ -51,11 +60,9 @@ def application(environ, start_response):
     
     resource_file = f'{api_folder}/{resource_token}.py'
     
-    print((api_folder, api_module_file, resource_file))
-
-    is_valid_path = os.path.exists(api_module_file) and os.path.exists(resource_file)
-    print((os.path.exists(api_module_file), os.path.exists(resource_file)))
-    if not is_valid_path:
+    is_options = os.path.exists(api_module_file) and os.path.exists(resource_file)
+    
+    if not is_options:
 
         (response_status, response_headers, response_body) = not_found_response()
         
@@ -194,3 +201,21 @@ def not_found_response():
 
     return prepare_response_with_body(response)
     
+def prepare_options_response():
+    
+    response_status = http_status.NO_CONTENT
+    response_reason = http_status.NO_CONTENT.phrase
+    response_headers = {
+        
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET',
+        'Access-Control-Max-Age':'86400',
+        'Content-Length': '0'
+
+    }
+
+    response_status_string = f'{response_status} {response_reason}'
+
+    response_headers_list = list(response_headers.items())
+
+    return (response_status_string, response_headers_list, [])
