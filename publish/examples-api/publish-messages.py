@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 import endpointer.http as ep_http
 import endpointer.session as ep_session
 
@@ -9,12 +10,12 @@ REQUEST_VERB = 'PATCH'
 
 API_TOKEN = 'cluster'
 RESOURCE_TOKEN = 'resources'
-RESOURCE_ID = 'bY6RTQgyeVYDiRi'
+RESOURCE_ID = 'VOPc5y2ngEY097y'
 
 LOCAL_API_TOKEN = 'examples-api'
 LOCAL_RESOURCE_TOKEN = 'messages.py'
 
-API_FOLDER = '/home/wardog1/work/endpointer/repositories/localstack-node/local-node/api-folder'
+API_FOLDER = 'local-node/api-folder'
 
 def main():
 
@@ -78,6 +79,8 @@ def main():
             print_response(response)
 
 def get_upload_content():
+
+    localstack_node_root = Path(__file__).resolve().parent.parent.parent
 
     file_path = f'{API_FOLDER}/{LOCAL_API_TOKEN}/{LOCAL_RESOURCE_TOKEN}'
     

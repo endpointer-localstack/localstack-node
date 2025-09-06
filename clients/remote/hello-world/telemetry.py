@@ -8,11 +8,11 @@ REQUEST_VERB = 'GET'
 API_TOKEN = 'cluster'
 RESOURCE_TOKEN = 'telemetries'
 
-RESOURCE_ID = 'resources'
+RESOURCE_ID = 'VOPc5y2ngEY097y'
 
 def main():
 
-    load_manager_url = "http://local.stacktrace.endpointer.com:84"
+    load_manager_url = "http://local.telemetry.endpointer.com:84"
 
     url = f'{load_manager_url}/{API_TOKEN}/{RESOURCE_TOKEN}/{RESOURCE_ID}'
 

@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 import endpointer.http as ep_http
 import endpointer.session as ep_session
 
@@ -9,17 +10,18 @@ REQUEST_VERB = 'PATCH'
 
 API_TOKEN = 'cluster'
 RESOURCE_TOKEN = 'apis'
+RESOURCE_ID = 'FlnZDW8YaqOuQa8'
 
 LOCAL_API_TOKEN = 'examples-api'
 LOCAL_RESOURCE_TOKEN = 'api-module.py'
 
-API_FOLDER = '/home/wardog1/work/endpointer/repositories/localstack-node/local-node/api-folder'
+API_FOLDER = 'local-node/api-folder'
 
 def main():
 
     load_manager_url = "http://local.load.endpointer.com"
 
-    url = f'{load_manager_url}/{API_TOKEN}/{RESOURCE_TOKEN}/aA3cAZxgEnUYIBq'
+    url = f'{load_manager_url}/{API_TOKEN}/{RESOURCE_TOKEN}/{RESOURCE_ID}'
 
     session_token = os.environ[ep_session.SESSION_TOKEN_ENV]
 
@@ -78,7 +80,9 @@ def main():
 
 def get_upload_content():
 
-    file_path = f'{API_FOLDER}/{LOCAL_API_TOKEN}/{LOCAL_RESOURCE_TOKEN}'
+    localstack_node_root = Path(__file__).resolve().parent.parent.parent
+
+    file_path = f'{localstack_node_root}/{API_FOLDER}/{LOCAL_API_TOKEN}/{LOCAL_RESOURCE_TOKEN}'
     
     with open(file_path, 'r') as file:
         content = file.read()

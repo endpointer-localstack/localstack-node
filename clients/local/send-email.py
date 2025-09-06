@@ -4,14 +4,14 @@ import json
 import requests
 
 REQUEST_VERB = 'POST'
-API_TOKEN = 'aA3cAZxgEnUYIBq'
-RESOURCE_TOKEN = 'W90rygJWNu9zHVr'
+API_TOKEN = 'examples-api'
+RESOURCE_TOKEN = 'emails'
 
 def main():
 
-    load_manager_url = "http://local.load.endpointer.com"
+    node_manager_url = "http://localstack.endpointer.com:82"
 
-    url = f'{load_manager_url}/{API_TOKEN}/{RESOURCE_TOKEN}'
+    url = f'{node_manager_url}/{API_TOKEN}/{RESOURCE_TOKEN}'
 
     request_headers = {
         ep_http.CONTENT_TYPE: ep_http.APPLICATION_JSON
@@ -19,7 +19,7 @@ def main():
 
     request_body = {
     
-        'receiver-email':'robertomessabrasil@gmail.com',
+        'receiver-email':'youremailaccount',
         'email-body':'Hello, World!',
 
     }

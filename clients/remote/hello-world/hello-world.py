@@ -2,8 +2,8 @@ import json
 import requests
 
 REQUEST_VERB = 'GET'
-API_TOKEN = 'aA3cAZxgEnUYIBq'
-RESOURCE_TOKEN = 'bY6RTQgyeVYDiRi'
+API_TOKEN = 'FlnZDW8YaqOuQa8'
+RESOURCE_TOKEN = 'VOPc5y2ngEY097y'
 
 def main():
 

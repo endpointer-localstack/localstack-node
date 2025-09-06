@@ -8,7 +8,7 @@ REQUEST_VERB = 'GET'
 API_TOKEN = 'cluster'
 RESOURCE_TOKEN = 'stacktraces'
 
-RESOURCE_ID = 'resources'
+RESOURCE_ID = 'VOPc5y2ngEY097y'
 
 def main():
 

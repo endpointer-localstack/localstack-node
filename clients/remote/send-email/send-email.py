@@ -1,39 +1,35 @@
 import json
-import os
-import endpointer.session as ep_session
-import endpointer.lambdaf as ep_lambdaf
 import requests
 
-LAMBDA_ALIAS = 'send-email'
-
-API_TOKEN = 'xDqTfnsMyHAjAoi'
-LAMBDA_TOKEN = 'gITZNywljYe0TVT'
-
-SESSION_TOKEN = os.environ.get(ep_session.SESSION_TOKEN_ENV)
-
-url = "http://local.load.endpointer.com"
-
-query_string = f'{ep_lambdaf.LAMBDA_ALIAS_FIELD}={LAMBDA_ALIAS}&{ep_lambdaf.LAMBDA_REFERENCE_FIELD}={API_TOKEN}.{LAMBDA_TOKEN}'
-
-url = f'{url}?{query_string}'
-
-headers = {
-    "Content-Type": "application/json",
-    ep_session.SESSION_TOKEN_HEADER:SESSION_TOKEN
-}
-
-body = {
-    
-    'receiver-email':'robertomessabrasil@gmail.com',
-    'email-body':'Hello, World!',
-
-}
+REQUEST_VERB = 'POST'
+API_TOKEN = 'FlnZDW8YaqOuQa8'
+RESOURCE_TOKEN = 'OomrJYHIwUE7vhH'
 
 def main():
+
+    load_manager_url = "http://local.load.endpointer.com"
+
+    url = f'{load_manager_url}/{API_TOKEN}/{RESOURCE_TOKEN}'
+
+    headers = {}
+
+    body = {
     
+        'receiver-email':'robertomessabrasil@gmail.com',
+        'email-body':'Hello, World!',
+
+    }
+
     try:
 
+        print(f'\n{REQUEST_VERB} {url}')
+        
         response = requests.post(url, headers=headers, json=body)
+        
+        sent_headers = response.request.headers
+        headers.update(sent_headers)
+        print(headers)
+
         response_status = response.status_code
         
         response_header_dict = dict(response.headers)
@@ -48,7 +44,11 @@ def main():
 
     except requests.exceptions.RequestException as e:
 
-        no_body = (response.status_code == 500) or (response.status_code == 403)
+        sent_headers = response.request.headers
+        headers.update(sent_headers)
+        print(headers)
+
+        no_body = (response.status_code == 500)
         if not no_body:
             print_response(response)
 
@@ -58,6 +58,7 @@ def print_response(response):
     response_body = json.dumps(response_json, indent='\t')
 
     print(response_body)
+
 
 if __name__ == '__main__':
     main()

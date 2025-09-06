@@ -186,7 +186,7 @@ def not_found_response():
 
     response_body = {
 
-        ep_http.ERROR_CODE_FIELD:ep_resource.RESOURCE_NOT_DEPLOYED,
+        ep_http.ERROR_CODE_FIELD:ep_resource.RESOURCE_NOT_FOUND,
         ep_http.DOCS_URL_FIELD:DOCS_URL
 
     }
