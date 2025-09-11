@@ -2,12 +2,12 @@ import json
 import requests
 
 REQUEST_VERB = 'GET'
-API_TOKEN = 'FlnZDW8YaqOuQa8'
-RESOURCE_TOKEN = 'VOPc5y2ngEY097y'
+API_TOKEN = 'YlwMzbCKJx3TIeq'
+RESOURCE_TOKEN = 'JnY0TgRZ8GY9xBz'
 
 def main():
 
-    load_manager_url = "http://local.load.endpointer.com"
+    load_manager_url = "https://eur-001.endpointer.com"
 
     url = f'{load_manager_url}/{API_TOKEN}/{RESOURCE_TOKEN}'
 

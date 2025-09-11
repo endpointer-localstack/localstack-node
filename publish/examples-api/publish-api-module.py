@@ -10,7 +10,7 @@ REQUEST_VERB = 'PATCH'
 
 API_TOKEN = 'cluster'
 RESOURCE_TOKEN = 'apis'
-RESOURCE_ID = 'FlnZDW8YaqOuQa8'
+RESOURCE_ID = 'YlwMzbCKJx3TIeq'
 
 LOCAL_API_TOKEN = 'examples-api'
 LOCAL_RESOURCE_TOKEN = 'api-module.py'
@@ -19,7 +19,7 @@ API_FOLDER = 'local-node/api-folder'
 
 def main():
 
-    load_manager_url = "http://local.load.endpointer.com"
+    load_manager_url = "https://eur-001.endpointer.com"
 
     url = f'{load_manager_url}/{API_TOKEN}/{RESOURCE_TOKEN}/{RESOURCE_ID}'
 
