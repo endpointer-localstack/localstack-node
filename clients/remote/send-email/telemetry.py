@@ -12,7 +12,7 @@ RESOURCE_ID = 'gITZNywljYe0TVT'
 
 def main():
 
-    load_manager_url = "http://local.stacktrace.endpointer.com:84"
+    load_manager_url = "https://eur-001.endpointer.com:84"
 
     url = f'{load_manager_url}/{API_TOKEN}/{RESOURCE_TOKEN}/{RESOURCE_ID}'
 
