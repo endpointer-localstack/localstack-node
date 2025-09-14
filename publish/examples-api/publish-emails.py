@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 import endpointer.http as ep_http
 import endpointer.session as ep_session
+import endpointer.parser as ep_parser
 
 import json
 import requests
@@ -32,7 +33,21 @@ def main():
 
     }
 
-    upload_content = get_upload_content()
+    file_content = get_file_content()
+
+    (result, a) = ep_parser.parse(file_content)
+
+    if result:
+
+        print(a)
+
+        return
+
+    else:
+
+        print('code accepted')
+
+    upload_content = get_upload_content(file_content)
 
     request_body = {
 
@@ -80,16 +95,22 @@ def main():
 
 def get_upload_content():
 
-    localstack_node_root = Path(__file__).resolve().parent.parent.parent
+    file_content = get_file_content()
 
-    file_path = f'{API_FOLDER}/{LOCAL_API_TOKEN}/{LOCAL_RESOURCE_TOKEN}'
-    
-    with open(file_path, 'r') as file:
-        content = file.read()
-
-    escaped_content = json.dumps(content)
+    escaped_content = json.dumps(file_content)
 
     return escaped_content
+
+def get_file_content():
+
+    localstack_node_root = Path(__file__).resolve().parent.parent.parent
+
+    file_path = f'{localstack_node_root}/{API_FOLDER}/{LOCAL_API_TOKEN}/{LOCAL_RESOURCE_TOKEN}'
+    
+    with open(file_path, 'r') as file:
+        file_content = file.read()
+
+    return file_content
 
 def print_response(response):
 

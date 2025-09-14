@@ -2,7 +2,7 @@ import endpointer.telemetry as ep_telemetry
 import endpointer.regexp as ep_regexp
 import endpointer.http as ep_http
 
-DOCS_URL = 'https://docs.endpointer.com/examples-send-email'
+DOCS_URL = 'https://endpointer.com'
 
 # Input fields
 
