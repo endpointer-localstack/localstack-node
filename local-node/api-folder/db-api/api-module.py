@@ -61,7 +61,7 @@ def get_privilege(session_token, db_token):
 def get_db_conn():
 
     db_conn = get_db_conn_local()
-
+    
     return db_conn
 
 def get_db_conn_remote():
@@ -77,15 +77,15 @@ def get_db_conn_remote():
     return db_conn
 
 def get_db_conn_local():
-
+    
     db_conn = db.connect(
 
-        host='localhost',
+        host='192.168.122.156',
         user='admin_remote',
         password='admin',
         database='product'
     )
-
+    
     return db_conn
 
 ################################################ input checking functions

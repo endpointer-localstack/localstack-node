@@ -44,18 +44,17 @@ def resource(request_verb, request_headers, request_uri, request_parameters, req
             if is_product_detail:
                 return product_detail(request_uri, api_module)
             
-            return product_list(api_module)
+            return product_list(date_time, api_module)
         
     return ep_http.method_not_allowed_response()
 
 ################################################ verb functions
 
 def product_detail(request_uri, api_module):
-
+    
     input_response = check_account_detail_input(request_uri)
     if input_response is not None:
         return input_response
-    
     product_id = request_uri[2]
     
     try:
@@ -66,6 +65,9 @@ def product_detail(request_uri, api_module):
 
         product = get_product_by_id(db_cursor, product_id)
 
+        if product is None:
+            return ep_http.not_found_response()
+        
     except Exception as e:
         raise e
 
@@ -80,7 +82,7 @@ def product_detail(request_uri, api_module):
     return product_detail_ok_response(product, api_module)
 
 def create_product(request_body, date_time, api_module):
-
+    
     input_response = check_create_product_input(request_body, api_module)
     if input_response is not None:
         return input_response
@@ -90,13 +92,13 @@ def create_product(request_body, date_time, api_module):
     try:
 
         db_conn = api_module.get_db_conn()
-
+        
         db_cursor = db_conn.cursor()
-
+        
         create_product_record(db_cursor, product_name, date_time, api_module)
-
+        
         product_id = db_cursor.lastrowid
-
+        
         db_conn.commit()
 
     except Exception as e:
@@ -241,23 +243,11 @@ def check_request_change_password_input(request_uri, api_module):
     
     return None
 
-def check_resend_account_token_input(request_uri, api_module):
-    
-    email = request_uri[2] if (len(request_uri) > 2) else None
-   
-    is_valid_email = (email is not None) and ep_regexp.is_valid_email(email)
-    
-    if not is_valid_email:
-
-        return api_module.invalid_email_response()
-    
-    return None
-
 def check_account_detail_input(request_uri):
     
     product_id = request_uri[2] if (len(request_uri) > 2) else None
    
-    is_valid_product_id = (product_id is not None) and isinstance(product_id, int)
+    is_valid_product_id = (product_id is not None)
     
     if not is_valid_product_id:
 
@@ -274,7 +264,7 @@ def check_change_product_name_input(request_uri, request_body, api_module):
     product_id = request_uri[2] if (len(request_uri) > 2) else None
     product_name = request_body.get(PRODUCT_NAME)
 
-    is_valid_product_id = (product_id is not None) and (isinstance(product_id, int))
+    is_valid_product_id = (product_id is not None)
 
     if not is_valid_product_id:
 
@@ -288,11 +278,11 @@ def check_change_product_name_input(request_uri, request_body, api_module):
     
     return None
 
-def check_delete_product_input(request_uri, request_body, api_module):
+def check_delete_product_input(request_uri, api_module):
 
     product_id = request_uri[2] if (len(request_uri) > 2) else None
 
-    is_valid_product_id = (product_id is not None) and (isinstance(product_id, int))
+    is_valid_product_id = (product_id is not None)
 
     if not is_valid_product_id:
 
@@ -304,7 +294,7 @@ def check_create_product_input(request_body, api_module):
 
     product_name = request_body.get(PRODUCT_NAME)
     
-    is_valid_product_name = ep_regexp.is_valid_token(product_name)
+    is_valid_product_name = (len(product_name) > 0)
 
     if not is_valid_product_name:
 
