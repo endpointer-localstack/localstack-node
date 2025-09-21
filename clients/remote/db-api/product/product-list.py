@@ -1,30 +1,23 @@
 import json
 import requests
 
-REQUEST_VERB = 'POST'
-API_TOKEN = 'YlwMzbCKJx3TIeq'
-RESOURCE_TOKEN = '0dG7udDQBZoZS06'
+REQUEST_VERB = 'GET'
+API_TOKEN = '2CWaRwAjWJlHpDH'
+RESOURCE_TOKEN = 'MlxCdJiRZduyoza'
 
 def main():
 
-    load_manager_url = "https://eur-001.endpointer.com"
+    node_manager_url = "https://eur-001.endpointer.com"
 
-    url = f'{load_manager_url}/{API_TOKEN}/{RESOURCE_TOKEN}'
+    url = f'{node_manager_url}/{API_TOKEN}/{RESOURCE_TOKEN}'
 
     headers = {}
-
-    body = {
-    
-        'receiver-email':'youremailaccount',
-        'email-body':'Hello, World!',
-
-    }
 
     try:
 
         print(f'\n{REQUEST_VERB} {url}')
         
-        response = requests.post(url, headers=headers, json=body)
+        response = requests.get(url, headers=headers)
         
         sent_headers = response.request.headers
         headers.update(sent_headers)

@@ -10,6 +10,8 @@ def resource(request_verb, request_headers, request_uri, request_parameters, req
     if no_session_token:
         return api_module.invalid_session_response()
     
+    # session_token = 'sdfre453ergtr43' use this to develop without role checking
+
     date_time = ep_telemetry.get_cluster_datetime(telemetry_data)
 
     match request_verb:
@@ -26,7 +28,7 @@ def resource(request_verb, request_headers, request_uri, request_parameters, req
 
 ################################################ verb functions
 
-def desc_table(ssession_token, request_parameters, date_time, api_module):
+def desc_table(session_token, request_parameters, date_time, api_module):
     
     input_response = check_desc_table_input(request_parameters, api_module)
     if input_response is not None:
@@ -35,15 +37,15 @@ def desc_table(ssession_token, request_parameters, date_time, api_module):
     db_token = request_parameters.get(api_module.DB_TOKEN)
     sql_command = request_parameters.get(api_module.SQL_COMMAND)
 
-    # has_privilege = api_module.has_privilege(session_token, db_token)
+    has_privilege = api_module.has_privilege(session_token, db_token)
 
-    # if not has_privilege:
+    if not has_privilege:
 
-    #     return api_module.no_role_response()
+        return api_module.no_role_response()
     
     try:
 
-        db_conn = api_module.get_db_conn()
+        db_conn = api_module.get_db_conn_admin()
 
         db_cursor = db_conn.cursor()
 
@@ -77,15 +79,15 @@ def create_table(session_token, request_body, date_time, api_module):
     db_token = request_body.get(api_module.DB_TOKEN)
     sql_command = request_body.get(api_module.SQL_COMMAND)
 
-    # has_privilege = api_module.has_privilege(session_token, db_token)
+    has_privilege = api_module.has_privilege(session_token, db_token)
 
-    # if not has_privilege:
+    if not has_privilege:
 
-    #     return api_module.no_role_response()
+        return api_module.no_role_response()
 
     try:
 
-        db_conn = api_module.get_db_conn()
+        db_conn = api_module.get_db_conn_admin()
 
         db_cursor = db_conn.cursor()
 

@@ -1,17 +1,26 @@
+import os
+import endpointer.session as ep_session
+
 import json
 import requests
 
 REQUEST_VERB = 'GET'
-API_TOKEN = 'YlwMzbCKJx3TIeq'
-RESOURCE_TOKEN = 'JnY0TgRZ8GY9xBz'
+API_TOKEN = 'cluster'
+RESOURCE_TOKEN = 'stacktraces'
+
+RESOURCE_ID = 'gITZNywljYe0TVT'
 
 def main():
 
-    load_manager_url = "https://eur-001.endpointer.com"
+    load_manager_url = "https://eur-001.endpointer.com:2053"
 
-    url = f'{load_manager_url}/{API_TOKEN}/{RESOURCE_TOKEN}'
+    url = f'{load_manager_url}/{API_TOKEN}/{RESOURCE_TOKEN}/{RESOURCE_ID}'
 
-    headers = {}
+    session_token = os.environ[ep_session.SESSION_TOKEN_ENV]
+
+    headers = {
+        ep_session.SESSION_TOKEN_HEADER:session_token
+    }
 
     try:
 
@@ -33,7 +42,8 @@ def main():
 
         response.raise_for_status()
         
-        print_response(response)
+        # print_response(response)
+        print_stacktrace(response)
 
     except requests.exceptions.RequestException as e:
 
@@ -41,9 +51,17 @@ def main():
         headers.update(sent_headers)
         print(headers)
 
-        no_body = (response.status_code == 500)
+        no_body = (response_status == 500) or (response_status == 403) or (response_status == 404)
         if not no_body:
             print_response(response)
+
+def print_stacktrace(response):
+
+    response_json = response.json()
+    stacktrace_content_json = response_json['stacktrace-content']
+    stacktrace_content = json.loads(stacktrace_content_json)
+
+    print(stacktrace_content)
 
 def print_response(response):
 

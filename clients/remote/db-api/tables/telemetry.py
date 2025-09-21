@@ -6,13 +6,13 @@ import requests
 
 REQUEST_VERB = 'GET'
 API_TOKEN = 'cluster'
-RESOURCE_TOKEN = 'stacktraces'
+RESOURCE_TOKEN = 'telemetries'
 
-RESOURCE_ID = 'gITZNywljYe0TVT'
+RESOURCE_ID = 'D8avvHm86pKGO03'
 
 def main():
 
-    load_manager_url = "https://eur-001.endpointer.com:83"
+    load_manager_url = "https://eur-001.endpointer.com:2083"
 
     url = f'{load_manager_url}/{API_TOKEN}/{RESOURCE_TOKEN}/{RESOURCE_ID}'
 
@@ -24,14 +24,7 @@ def main():
 
     try:
 
-        print(f'\n{REQUEST_VERB} {url}')
-        
         response = requests.get(url, headers=headers)
-        
-        sent_headers = response.request.headers
-        headers.update(sent_headers)
-        print(headers)
-
         response_status = response.status_code
         
         response_header_dict = dict(response.headers)
@@ -42,26 +35,22 @@ def main():
 
         response.raise_for_status()
         
-        # print_response(response)
-        print_stacktrace(response)
+        print('\n')
+        print_telemetry(response)
 
     except requests.exceptions.RequestException as e:
-
-        sent_headers = response.request.headers
-        headers.update(sent_headers)
-        print(headers)
 
         no_body = (response_status == 500) or (response_status == 403) or (response_status == 404)
         if not no_body:
             print_response(response)
 
-def print_stacktrace(response):
+def print_telemetry(response):
 
     response_json = response.json()
-    stacktrace_content_json = response_json['stacktrace-content']
-    stacktrace_content = json.loads(stacktrace_content_json)
+    telemetry_content_json = response_json['telemetry-content']
+    telemetry_content = json.loads(telemetry_content_json)
 
-    print(stacktrace_content)
+    print(telemetry_content)
 
 def print_response(response):
 
@@ -69,7 +58,6 @@ def print_response(response):
     response_body = json.dumps(response_json, indent='\t')
 
     print(response_body)
-
 
 if __name__ == '__main__':
     main()

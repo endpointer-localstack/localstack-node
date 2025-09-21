@@ -8,11 +8,11 @@ REQUEST_VERB = 'GET'
 API_TOKEN = 'cluster'
 RESOURCE_TOKEN = 'telemetries'
 
-RESOURCE_ID = 'gITZNywljYe0TVT'
+RESOURCE_ID = 'VOPc5y2ngEY097y'
 
 def main():
 
-    load_manager_url = "https://eur-001.endpointer.com:84"
+    load_manager_url = "https://eur-001.endpointer.com:2083"
 
     url = f'{load_manager_url}/{API_TOKEN}/{RESOURCE_TOKEN}/{RESOURCE_ID}'
 

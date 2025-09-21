@@ -1,58 +1,34 @@
 import os
-from pathlib import Path
 import endpointer.http as ep_http
 import endpointer.session as ep_session
-import endpointer.parser as ep_parser
 
 import json
 import requests
 
-REQUEST_VERB = 'PATCH'
-
-API_TOKEN = 'cluster'
-RESOURCE_TOKEN = 'apis'
-RESOURCE_ID = '2CWaRwAjWJlHpDH'
-
-LOCAL_API_TOKEN = 'examples-api'
-LOCAL_RESOURCE_TOKEN = 'api-module.py'
-
-API_FOLDER = 'local-node/api-folder'
+REQUEST_VERB = 'POST'
+API_TOKEN = '2CWaRwAjWJlHpDH'
+RESOURCE_TOKEN = 'D8avvHm86pKGO03'
 
 def main():
 
     load_manager_url = "https://eur-001.endpointer.com"
 
-    url = f'{load_manager_url}/{API_TOKEN}/{RESOURCE_TOKEN}/{RESOURCE_ID}'
+    url = f'{load_manager_url}/{API_TOKEN}/{RESOURCE_TOKEN}'
 
     session_token = os.environ[ep_session.SESSION_TOKEN_ENV]
 
     request_headers = {
-
         ep_http.CONTENT_TYPE: ep_http.APPLICATION_JSON,
         ep_session.SESSION_TOKEN_HEADER:session_token
-
     }
 
-    file_content = get_file_content()
-
-    (result, a) = ep_parser.parse(file_content)
-
-    if result:
-
-        print(a)
-
-        return
-
-    else:
-
-        print('code accepted')
-
-    upload_content = get_upload_content(file_content)
-
     request_body = {
-
-        'patch-op': 0,
-        'uploaded-content': upload_content
+    
+        'db-token':'4H6NG07WssVsyea',
+        'sql-command':'''CREATE TABLE prod_product (
+                            id INT AUTO_INCREMENT PRIMARY KEY,
+                            name VARCHAR(20) NOT NULL
+                        );'''
 
     }
 
@@ -60,12 +36,12 @@ def main():
 
         print(f'\n{REQUEST_VERB} {url}')
         
-        response = requests.patch(url, headers=request_headers, json=request_body)
+        response = requests.post(url, headers=request_headers, json=request_body)
         
         sent_headers = response.request.headers
         request_headers.update(sent_headers)
         print(request_headers)
-        # print(f'{request_body}\n')
+        print(f'{request_body}\n')
 
         response_status = response.status_code
         
@@ -87,28 +63,11 @@ def main():
             sent_headers = response.request.headers
             request_headers.update(sent_headers)
             print(request_headers)
-            # print(f'{request_body}\n')
+            print(f'{request_body}\n')
 
         no_body = (response.status_code == 500) or (response.status_code == 404)
         if not no_body:
             print_response(response)
-
-def get_upload_content(file_content):
-
-    escaped_content = json.dumps(file_content)
-
-    return escaped_content
-
-def get_file_content():
-
-    localstack_node_root = Path(__file__).resolve().parent.parent.parent
-
-    file_path = f'{localstack_node_root}/{API_FOLDER}/{LOCAL_API_TOKEN}/{LOCAL_RESOURCE_TOKEN}'
-    
-    with open(file_path, 'r') as file:
-        file_content = file.read()
-
-    return file_content
 
 def print_response(response):
 

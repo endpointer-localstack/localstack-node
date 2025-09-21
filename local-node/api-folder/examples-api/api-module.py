@@ -4,10 +4,10 @@ import endpointer.email as ep_email
 
 def send_email(sender_name, receiver_email, subject, body):
 
-    my_sender_email = 'youemailaccount'
-    my_email_server_user = 'yoursmtpserveruser'
-    my_email_server_password = 'yoursmtpserveruserpassword'
-    my_smtp_server = 'yoursmtpserver'
+    my_sender_email = 'yoursenderemailaccount'
+    my_email_server_user = 'yoursenderemailserveruser'
+    my_email_server_password = 'yoursenderemailserveruserpassword'
+    my_smtp_server = 'yoursenderemailserver'
     my_smtp_port = 587
 
     ep_email.send_plain_email(

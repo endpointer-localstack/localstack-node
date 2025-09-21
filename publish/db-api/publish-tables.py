@@ -10,11 +10,11 @@ import requests
 REQUEST_VERB = 'PATCH'
 
 API_TOKEN = 'cluster'
-RESOURCE_TOKEN = 'apis'
-RESOURCE_ID = '2CWaRwAjWJlHpDH'
+RESOURCE_TOKEN = 'resources'
+RESOURCE_ID = 'D8avvHm86pKGO03'
 
-LOCAL_API_TOKEN = 'examples-api'
-LOCAL_RESOURCE_TOKEN = 'api-module.py'
+LOCAL_API_TOKEN = 'db-api'
+LOCAL_RESOURCE_TOKEN = 'tables.py'
 
 API_FOLDER = 'local-node/api-folder'
 

@@ -1,32 +1,30 @@
-import os
-import endpointer.session as ep_session
-
 import json
 import requests
 
-REQUEST_VERB = 'GET'
-API_TOKEN = 'cluster'
-RESOURCE_TOKEN = 'stacktraces'
-
-RESOURCE_ID = 'VOPc5y2ngEY097y'
+REQUEST_VERB = 'POST'
+API_TOKEN = '2CWaRwAjWJlHpDH'
+RESOURCE_TOKEN = 'MlxCdJiRZduyoza'
 
 def main():
 
-    load_manager_url = "https://eur-001.endpointer.com:83"
+    load_manager_url = "https://eur-001.endpointer.com"
 
-    url = f'{load_manager_url}/{API_TOKEN}/{RESOURCE_TOKEN}/{RESOURCE_ID}'
+    url = f'{load_manager_url}/{API_TOKEN}/{RESOURCE_TOKEN}'
 
-    session_token = os.environ[ep_session.SESSION_TOKEN_ENV]
+    headers = {}
 
-    headers = {
-        ep_session.SESSION_TOKEN_HEADER:session_token
+    body = {
+    
+        'receiver-email':'robertomessabrasil@gmail.com',
+        'email-body':'Hello, World!',
+
     }
 
     try:
 
         print(f'\n{REQUEST_VERB} {url}')
         
-        response = requests.get(url, headers=headers)
+        response = requests.post(url, headers=headers, json=body)
         
         sent_headers = response.request.headers
         headers.update(sent_headers)
@@ -42,8 +40,7 @@ def main():
 
         response.raise_for_status()
         
-        # print_response(response)
-        print_stacktrace(response)
+        print_response(response)
 
     except requests.exceptions.RequestException as e:
 
@@ -51,17 +48,9 @@ def main():
         headers.update(sent_headers)
         print(headers)
 
-        no_body = (response_status == 500) or (response_status == 403) or (response_status == 404)
+        no_body = (response.status_code == 500)
         if not no_body:
             print_response(response)
-
-def print_stacktrace(response):
-
-    response_json = response.json()
-    stacktrace_content_json = response_json['stacktrace-content']
-    stacktrace_content = json.loads(stacktrace_content_json)
-
-    print(stacktrace_content)
 
 def print_response(response):
 

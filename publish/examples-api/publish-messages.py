@@ -11,7 +11,7 @@ REQUEST_VERB = 'PATCH'
 
 API_TOKEN = 'cluster'
 RESOURCE_TOKEN = 'resources'
-RESOURCE_ID = 'JnY0TgRZ8GY9xBz'
+RESOURCE_ID = 'D8avvHm86pKGO03'
 
 LOCAL_API_TOKEN = 'examples-api'
 LOCAL_RESOURCE_TOKEN = 'messages.py'
@@ -93,9 +93,7 @@ def main():
         if not no_body:
             print_response(response)
 
-def get_upload_content():
-
-    file_content = get_file_content()
+def get_upload_content(file_content):
 
     escaped_content = json.dumps(file_content)
 

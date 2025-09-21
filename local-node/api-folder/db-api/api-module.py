@@ -20,7 +20,36 @@ ORGANIZATION_ROLE = 'organization-role'
 REQUEST_VERB = 'GET'
 API_TOKEN = 'cluster'
 RESOURCE_TOKEN = 'dbs'
-RESOURCE_ID = 'K7IMehV13K1z7ol'
+
+# Local db
+# --------------------------------
+# DB_SERVER = '192.168.122.156'
+# DB_DATABASE = 'product'
+
+# Local db admin
+# --------------------------------
+# DB_ADMIN = 'admin_remote'
+# DB_ADMIN_PASSWORD = 'admin'
+
+# Local db user
+# --------------------------------
+# DB_USER = 'admin_remote'
+# DB_USER_PASSWORD = 'admin'
+
+# Remote db
+# --------------------------------
+DB_SERVER = 'localhost'
+DB_DATABASE = '4H6NG07WssVsyea'
+
+# Remote db admin
+# --------------------------------
+DB_ADMIN = '4H6NG07WssVsyea_admin'
+DB_ADMIN_PASSWORD = 'gITZNywljYe0TVT'
+
+# Remote db user
+# --------------------------------
+DB_USER = '4H6NG07WssVsyea_user'
+DB_USER_PASSWORD = '79E09EW33uJPgTF'
 
 ################################################ regular functions
 
@@ -33,9 +62,13 @@ def has_privilege(session_token, db_token):
 
 def get_privilege(session_token, db_token):
 
-    load_manager_url = "http://local.load.endpointer.com"
+    load_manager_url = "https://eur-001.endpointer.com"
 
     url = f'{load_manager_url}/{API_TOKEN}/{RESOURCE_TOKEN}/{db_token}'
+
+    query_string = f'query-op=0'
+
+    url = f'{url}?{query_string}'
 
     headers = {
         ep_session.SESSION_TOKEN_HEADER:session_token
@@ -45,47 +78,43 @@ def get_privilege(session_token, db_token):
 
         response = requests.get(url, headers=headers)
         
-        response.raise_for_status()
-
         response_status = response.status_code
 
-        response_json = response.json()
+        if '200' in str(response_status):
 
-        role = response_json[ORGANIZATION_ROLE]
+            response_json = response.json()
 
-        return (response_status, role)
+            role = response_json[ORGANIZATION_ROLE]
+
+            return (response_status, role)
+        
+        return (response_status, None)
         
     except Exception as e:
         raise
 
+def get_db_conn_admin():
+
+    db_conn = db.connect(
+
+        host=DB_SERVER,
+        user=DB_ADMIN,
+        password=DB_ADMIN_PASSWORD,
+        database=DB_DATABASE
+    )
+
+    return db_conn
+
 def get_db_conn():
 
-    db_conn = get_db_conn_local()
-    
-    return db_conn
-
-def get_db_conn_remote():
-
     db_conn = db.connect(
 
-        host='localhost',
-        user='K7IMehV13K1z7ol_admin',
-        password='LU1pBPYRL66dPF6',
-        database='cluster'
+        host=DB_SERVER,
+        user=DB_USER,
+        password=DB_USER_PASSWORD,
+        database=DB_DATABASE
     )
 
-    return db_conn
-
-def get_db_conn_local():
-    
-    db_conn = db.connect(
-
-        host='192.168.122.156',
-        user='admin_remote',
-        password='admin',
-        database='product'
-    )
-    
     return db_conn
 
 ################################################ input checking functions

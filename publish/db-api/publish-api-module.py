@@ -13,7 +13,7 @@ API_TOKEN = 'cluster'
 RESOURCE_TOKEN = 'apis'
 RESOURCE_ID = '2CWaRwAjWJlHpDH'
 
-LOCAL_API_TOKEN = 'examples-api'
+LOCAL_API_TOKEN = 'db-api'
 LOCAL_RESOURCE_TOKEN = 'api-module.py'
 
 API_FOLDER = 'local-node/api-folder'
