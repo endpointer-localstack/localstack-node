@@ -23,33 +23,33 @@ RESOURCE_TOKEN = 'dbs'
 
 # Local db
 # --------------------------------
-# DB_SERVER = '192.168.122.156'
-# DB_DATABASE = 'product'
+DB_SERVER = 'yourlocalip'
+DB_DATABASE = 'yourlocaldb'
 
 # Local db admin
 # --------------------------------
-# DB_ADMIN = 'admin_remote'
-# DB_ADMIN_PASSWORD = 'admin'
+DB_ADMIN = 'yourlocaldbadminuser'
+DB_ADMIN_PASSWORD = 'yourlocaldbadminpassword'
 
 # Local db user
 # --------------------------------
-# DB_USER = 'admin_remote'
-# DB_USER_PASSWORD = 'admin'
+DB_USER = 'yourlocaldb'
+DB_USER_PASSWORD = 'yourlocaldbuserpassword'
 
 # Remote db
 # --------------------------------
-DB_SERVER = 'localhost'
-DB_DATABASE = '4H6NG07WssVsyea'
+# DB_SERVER = 'localhost'
+# DB_DATABASE = 'yourdbtoken'
 
 # Remote db admin
 # --------------------------------
-DB_ADMIN = '4H6NG07WssVsyea_admin'
-DB_ADMIN_PASSWORD = 'gITZNywljYe0TVT'
+# DB_ADMIN = 'yourdbtoken_admin'
+# DB_ADMIN_PASSWORD = 'youradminpassword'
 
 # Remote db user
 # --------------------------------
-DB_USER = '4H6NG07WssVsyea_user'
-DB_USER_PASSWORD = '79E09EW33uJPgTF'
+# DB_USER = 'yourdbtoken_user'
+# DB_USER_PASSWORD = 'youruserpassword'
 
 ################################################ regular functions
 
